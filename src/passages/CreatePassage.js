@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
+import CreatePassageFields from "./CreatePassageFields";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -8,14 +9,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     width: "100%",
   },
-  paper: {
-    height: "100vh",
-    width: "80%",
-    backgroundColor: "blue",
-  },
 }));
 
 export default function CreatePassage() {
   const classes = useStyles();
-  return <Paper elevation={2} className={classes.paper}></Paper>;
+  return <CreatePassageFields></CreatePassageFields>;
 }
