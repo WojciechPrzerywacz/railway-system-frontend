@@ -4,6 +4,11 @@ import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import MenuItem from "@material-ui/core/MenuItem";
 import { fetchTrainsList } from "../trains/trainsSlice";
+import {
+  setStartingPlace,
+  setEndingPlace,
+  setLocomotiveId,
+} from "./createPassagesSlice";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector, useDispatch } from "react-redux";
 import TrainsListItem from "../trains/TrainsListItem";
@@ -29,13 +34,17 @@ const calculateLoad = (value) => {
 
 export default function CreatePassageFields() {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [start, setStart] = useState("");
+  const [destination, setDestination] = useState("");
+  const [selectedTrain, setSelectedTrain] = useState("");
   const { trains } = useSelector((store) => store.trainslist);
 
-  const handleChange = (event) => {
-    setCurrentSelect(event.target.value);
-  };
   const [currentSelect, setCurrentSelect] = useState(0);
+
+  useEffect(() => {
+    dispatch(fetchTrainsList(`http://localhost:8080/trains`));
+  }, [dispatch]);
 
   return (
     <Grid>
@@ -43,23 +52,36 @@ export default function CreatePassageFields() {
         id="starting-location-label"
         label="Enter starting location"
         value={start}
-        onChange={(event) => setStart(event.target.value)}
+        onChange={(event) => {
+          setStart(event.target.value);
+          dispatch(setStartingPlace(event.target.value));
+        }}
       />
       <TextField
         id="destination-label"
         label="Enter destination"
-        value={start}
-        onChange={(event) => setStart(event.target.value)}
+        value={destination}
+        onChange={(event) => {
+          setDestination(event.target.value);
+          dispatch(setEndingPlace(event.target.value));
+        }}
       />
       <TextField
         id="select-train"
         select
-        value={currentSelect}
-        onChange={handleChange}
+        value={selectedTrain}
+        //onChange={(event) => setSelectedTrain(event.target.value)}
         helperText="Please select train"
       >
         {trains?.map((option, index) => (
-          <MenuItem>{option?.id}</MenuItem>
+          <MenuItem
+            onClick={() => {
+              setSelectedTrain(option?.id);
+              dispatch(setLocomotiveId(option?.id));
+            }}
+          >
+            {option?.locomotive.locomotive_name}
+          </MenuItem>
         ))}
       </TextField>
       <List
@@ -67,15 +89,12 @@ export default function CreatePassageFields() {
         aria-label="main mailbox folders"
         className={classes.root}
       >
-        {trains.map((value, index) => (
-          <TrainsListItem
-            key={index}
-            id={value?.id}
-            name={value?.locomotive.locomotive_name}
-            max_load={value?.locomotive.max_load}
-            current_load={calculateLoad(value)}
-          ></TrainsListItem>
-        ))}
+        <TrainsListItem
+          id={selectedTrain}
+          name={trains[selectedTrain - 2]?.locomotive.locomotive_name}
+          max_load={trains[selectedTrain - 2]?.locomotive.max_load}
+          current_load={calculateLoad(trains[selectedTrain - 2])}
+        ></TrainsListItem>
       </List>
     </Grid>
   );

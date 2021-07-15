@@ -3,11 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   startingPlace: "",
   endingPlace: "",
-  locomotiveId: 0,
+  locomotiveId: -1,
 };
 
-export const trainsSlice = createSlice({
-  name: "createpassage",
+export const passagesSlice = createSlice({
+  name: "passage",
   initialState,
   reducers: {
     setStartingPlace: (state, action) => {
@@ -16,13 +16,13 @@ export const trainsSlice = createSlice({
     setEndingPlace: (state, action) => {
       state.endingPlace = action.payload;
     },
-    locomotiveId: (state, action) => {
+    setLocomotiveId: (state, action) => {
       state.locomotiveId = action.payload;
     },
   },
 });
 
-export const { setStartingPlace, setEndingPlace, locomotiveId } =
-  trainsSlice.actions;
+export const { setStartingPlace, setEndingPlace, setLocomotiveId } =
+  passagesSlice.actions;
 
-export default trainsSlice.reducer;
+export default passagesSlice.reducer;

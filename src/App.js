@@ -5,6 +5,7 @@ import Navbar from "./Navbar";
 import Home from "./Home";
 import CreateTrain from "./trains/createTrainForm/CreateTrain";
 import CreatePassage from "./passages/CreatePassage";
+import PassagesList from "./passages/PassagesList";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -32,6 +33,12 @@ function App() {
           </Route>
           <Route path="/createpassage">
             <CreatePassage />
+          </Route>
+          <Route path="/alltrains">
+            <Home />
+          </Route>
+          <Route path="/allpassages">
+            <PassagesList />
           </Route>
         </Switch>
       </Box>

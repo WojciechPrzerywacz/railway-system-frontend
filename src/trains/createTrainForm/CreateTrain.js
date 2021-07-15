@@ -5,6 +5,7 @@ import TrainInfoLabel from "./TrainInfoLabel";
 import Button from "@material-ui/core/Button";
 import { useSelector } from "react-redux";
 import CreateTrainFields from "./CreateTrainFields";
+import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "white",
   },
   button: {
-    marginLeft: "50%",
     borderRadius: "100px",
     border: "2px solid #a74db0",
     backgroundColor: "white",
@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#a74db0",
       color: "white",
     },
+  },
+  grid: {
+    height: "100vh",
   },
 }));
 
@@ -52,7 +55,13 @@ export default function CreateTrain() {
   };
 
   return (
-    <Paper elevation={2} className={classes.paper}>
+    <Grid
+      className={classes.grid}
+      container
+      direction="column"
+      justifyContent="space-around"
+      alignItems="center"
+    >
       <CreateTrainFields></CreateTrainFields>
       <TrainInfoLabel />
       <Button
@@ -64,6 +73,6 @@ export default function CreateTrain() {
       >
         Create Train
       </Button>
-    </Paper>
+    </Grid>
   );
 }
