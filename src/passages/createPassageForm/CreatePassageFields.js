@@ -20,8 +20,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useSelector, useDispatch } from "react-redux";
 import Button from "@material-ui/core/Button";
 import TrainInfoLabel from "../../trains/createTrainForm/TrainInfoLabel";
-import LocomotivesDialog from "./LocomotivesDialog";
-import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,13 +36,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     margin: "15px",
   },
-  avatar: {
-    backgroundColor: "#339989",
-    color: "#F4F2F3",
-    margin: "0px 15px 0px 0px",
-  },
   dropfield: {
-    width: "400px",
+    width: "500px",
     borderRadius: "10px",
   },
   button: {
@@ -76,8 +69,6 @@ export default function CreatePassageFields() {
   const dispatch = useDispatch();
   const [start, setStart] = useState("Some location");
   const [destination, setDestination] = useState("Some location");
-  const [selectedTrain, setSelectedTrain] = useState(-1);
-  const { trainTypes } = useSelector((store) => store.trainslist);
   const { locomotives, wagons } = useSelector((store) => store.createTrain);
 
   const [currentLoco, setCurrentLoco] = useState("");
@@ -97,11 +88,6 @@ export default function CreatePassageFields() {
     dispatch(fetchWagons(`http://localhost:8080/wagontypes`));
   }, [dispatch]);
 
-  //do dialoga
-  const [open, setOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState("HELLO");
-
-  //^^
   return (
     <Grid
       container
@@ -110,27 +96,6 @@ export default function CreatePassageFields() {
       alignItems="center"
       spacing={2}
     >
-      {/* <Grid className={classes.gridbox}>
-        <Typography variant="subtitle1">
-          Selected locomotive: {selectedValue}
-        </Typography>
-        <br />
-        <Button
-          variant="outlined"
-          color="primary"
-          onClick={() => setOpen(true)}
-        >
-          Select locomotive type
-        </Button>
-        <LocomotivesDialog
-          selectedValue={selectedValue}
-          open={open}
-          onClose={(value) => {
-            setOpen(false);
-            setSelectedValue(value);
-          }}
-        />
-      </Grid> */}
       <Grid item xs={12} className={classes.gridbox}>
         <TextField
           id="passage-name"
