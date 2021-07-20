@@ -1,25 +1,46 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { myfetch, getTemplate } from "../app/myFetch";
 
 const initialState = {
-  trains: [],
+  trainTypes: [],
+  wagonTypes: [],
 };
 
 export const trainsSlice = createSlice({
   name: "trainslist",
   initialState,
   reducers: {
-    setTrainsListJson: (state, action) => {
-      state.trains = action.payload;
+    setTrainTypes: (state, action) => {
+      state.trainTypes = action.payload;
+    },
+    setWagonTypes: (state, action) => {
+      state.wagonTypes = action.payload;
     },
   },
 });
 
-const { setTrainsListJson } = trainsSlice.actions;
+const { setTrainTypes, setWagonTypes } = trainsSlice.actions;
 
-export const fetchTrainsList = (request) => async (dispatch) => {
-  const response = await fetch(request, {});
-  const json = await response.json();
-  dispatch(setTrainsListJson(json));
+export const fetchTrainTypes = (request) => async (dispatch) => {
+  const response = await myfetch(request, getTemplate);
+  if (response.ok) {
+    console.log(response);
+    const json = await response.json();
+    dispatch(setTrainTypes(json));
+  } else {
+    alert("GET train types error");
+  }
+};
+
+export const fetchWagonTypes = (request) => async (dispatch) => {
+  const response = await myfetch(request, getTemplate);
+  if (response.ok) {
+    console.log(response);
+    const json = await response.json();
+    dispatch(setWagonTypes(json));
+  } else {
+    alert("GET wagon types error");
+  }
 };
 
 export default trainsSlice.reducer;

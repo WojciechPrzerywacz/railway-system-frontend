@@ -1,13 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import TrainsList from "./trains/TrainsList";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "row",
-    width: "100%",
+    width: "80%",
   },
   paper: {
     height: "100vh",
@@ -18,9 +17,5 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home() {
   const classes = useStyles();
-  return (
-    <Paper elevation={2} className={classes.paper}>
-      <TrainsList />
-    </Paper>
-  );
+  return <Paper elevation={2} className={classes.paper}></Paper>;
 }

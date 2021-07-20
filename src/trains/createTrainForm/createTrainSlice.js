@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   locomotives: [],
-  locomotiveIdToPost: 0,
+  locomotiveIdToPost: -1,
   wagons: [],
   wagonsToPost: [],
 };

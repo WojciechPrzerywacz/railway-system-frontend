@@ -4,48 +4,61 @@ import Button from "@material-ui/core/Button";
 import CreatePassageFields from "./CreatePassageFields";
 import { useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
+import { myfetch, postTemplate } from "../../app/myFetch";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "row",
-    width: "100%",
   },
   button: {
     borderRadius: "100px",
-    border: "2px solid #a74db0",
-    backgroundColor: "white",
     color: "#4b5c69",
+    border: "2px solid #339989",
+    backgroundColor: "white",
     "&:hover": {
-      backgroundColor: "#a74db0",
+      backgroundColor: "#339989",
       color: "white",
     },
   },
   grid: {
-    height: "100vh",
+    // height: "100vh",
+    width: "80%",
   },
 }));
 
 export default function CreatePassage() {
+  const history = useHistory();
   const classes = useStyles();
-  const { startingPlace, endingPlace, locomotiveId } = useSelector(
+  const { startingPlace, endingPlace, passageName } = useSelector(
     (store) => store.createPassage
+  );
+  const { wagonsToPost, locomotiveIdToPost } = useSelector(
+    (store) => store.createTrain
   );
 
   const handleSubmit = (e) => {
     const passageToSubmit = {
+      passageName: passageName,
       startingPlace: startingPlace,
       endingPlace: endingPlace,
-      locomotiveId: locomotiveId,
+      locomotiveId: locomotiveIdToPost,
+      wagonsList: wagonsToPost,
     };
-
-    fetch("http://localhost:8080/passages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(passageToSubmit),
-    }).then(() => {
-      console.log(JSON.stringify(passageToSubmit));
-    });
+    if (
+      passageToSubmit.passageName !== "" &&
+      passageToSubmit.locomotiveIdToPost !== -1 &&
+      passageToSubmit.startingPlace !== "" &&
+      passageToSubmit.endingPlace !== "" &&
+      passageToSubmit.wagonsList.length > 0
+    ) {
+      myfetch("http://localhost:8080/passages", postTemplate(passageToSubmit));
+      alert("Succesfully Created Passage!");
+      history.push("/allpassages");
+    } else {
+      alert("Could not create passage!");
+    }
   };
 
   return (
@@ -53,9 +66,8 @@ export default function CreatePassage() {
       className={classes.grid}
       container
       direction="column"
-      justifyContent="space-around"
       alignItems="center"
-      className={classes.grid}
+      justifyContent="center"
     >
       <CreatePassageFields></CreatePassageFields>
       <Button

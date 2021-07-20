@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchLocomotives, setLocomotiveIdToPost } from "./createTrainSlice";
+import { fetchLocomotives } from "./createTrainSlice";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -8,10 +8,6 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import DeleteIcon from "@material-ui/icons/Delete";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import List from "@material-ui/core/List";
-import Box from "@material-ui/core/Box";
 import RefreshIcon from "@material-ui/icons/Refresh";
 
 const useStyles = makeStyles((theme) => ({

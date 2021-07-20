@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getTemplate, myfetch } from "../app/myFetch";
 
 const initialState = {
   passages: [],
   selectedPassageId: -1,
   currentPassage: {},
+  responseStatus: "",
 };
 
 export const passagesSlice = createSlice({
@@ -19,22 +21,37 @@ export const passagesSlice = createSlice({
     setCurrentPassage: (state, action) => {
       state.currentPassage = action.payload;
     },
+    setResponseStatus: (state, action) => {
+      state.responseStatus = action.payload;
+    },
   },
 });
 
 export const { setSelectedPassageId } = passagesSlice.actions;
-const { setPassagesList, setCurrentPassage } = passagesSlice.actions;
+const { setPassagesList, setCurrentPassage, setResponseStatus } =
+  passagesSlice.actions;
 
 export const fetchPassagesList = (request) => async (dispatch) => {
-  const response = await fetch(request, {});
-  const json = await response.json();
-  dispatch(setPassagesList(json));
+  const response = await myfetch(request, getTemplate);
+  if (response.ok) {
+    const json = await response.json();
+    dispatch(setPassagesList(json));
+    dispatch(setResponseStatus(response.ok));
+  } else {
+    dispatch(setResponseStatus("Passages list fetching error"));
+  }
 };
 
 export const fetchCurrentPassage = (request) => async (dispatch) => {
-  const response = await fetch(request, {});
-  const json = await response.json();
-  dispatch(setCurrentPassage(json));
+  const response = await myfetch(request, getTemplate);
+  if (response.ok) {
+    const json = await response.json();
+    dispatch(setCurrentPassage(json));
+    dispatch(setResponseStatus(response.ok));
+  } else {
+    const errorMessage = await response.text();
+    alert(errorMessage);
+  }
 };
 
 export default passagesSlice.reducer;

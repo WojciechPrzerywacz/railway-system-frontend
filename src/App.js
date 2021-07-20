@@ -2,11 +2,11 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Navbar from "./Navbar";
-import Home from "./Home";
-import CreateTrain from "./trains/createTrainForm/CreateTrain";
-import CreatePassage from "./passages/CreatePassage";
+import CreatePassage from "./passages/createPassageForm/CreatePassage";
 import PassagesList from "./passages/PassagesList";
+import TypesList from "./trains/TypesList";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import PassageDetails from "./passages/PassageDetails";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,19 +26,19 @@ function App() {
         <Navbar className={classes.navbar} />
         <Switch>
           <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/createtrain">
-            <CreateTrain />
+            <PassagesList />
           </Route>
           <Route path="/createpassage">
             <CreatePassage />
           </Route>
           <Route path="/alltrains">
-            <Home />
+            <TypesList />
           </Route>
           <Route path="/allpassages">
             <PassagesList />
+          </Route>
+          <Route path="/:id">
+            <PassageDetails />
           </Route>
         </Switch>
       </Box>

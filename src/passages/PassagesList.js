@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
 import { fetchPassagesList } from "./passagesSlice";
 import PassagesListItem from "./PassagesListItem";
-import PassageDetails from "./PassageDetails";
 import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -13,8 +11,6 @@ const useStyles = makeStyles((theme) => ({
     color: "#4b5c69",
     height: "100vh",
     width: "80%",
-    borderRadius: "0px 20px 20px 0px",
-    marginRight: "20px",
   },
 }));
 
@@ -30,12 +26,12 @@ export default function PassagesList() {
     <Grid
       className={classes.root}
       container
-      direction="column"
+      direction="row"
       justifyContent="flex-start"
       alignItems="center"
     >
-      <List component="nav" aria-label="Passages">
-        {passages.map((value, index) => (
+      {passages.map((value, index) => (
+        <Grid item xs={4}>
           <PassagesListItem
             id={value?.id}
             key={index}
@@ -43,9 +39,8 @@ export default function PassagesList() {
             start={value?.start}
             destination={value?.destination}
           />
-        ))}
-      </List>
-      <PassageDetails></PassageDetails>
+        </Grid>
+      ))}
     </Grid>
   );
 }
